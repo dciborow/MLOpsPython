@@ -58,10 +58,11 @@ def main():
     train_pipeline = Pipeline(workspace=aml_workspace, steps=steps)
     train_pipeline.validate()
     published_pipeline = train_pipeline.publish(
-        name=pipeline_name + "_with_R_on_DB",
+        name=f'{pipeline_name}_with_R_on_DB',
         description="Model training/retraining pipeline",
-        version=build_id
+        version=build_id,
     )
+
     print(f'Published pipeline: {published_pipeline.name}')
     print(f'for build {published_pipeline.version}')
 

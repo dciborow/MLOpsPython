@@ -21,7 +21,7 @@ RESOURCE_GROUP = os.environ.get("BASE_NAME")+"-AML-RG"
 
 
 if os.path.isfile(MODEL_PATH) is False:
-    print("The given model path %s is invalid" % (MODEL_PATH))
+    print(f"The given model path {MODEL_PATH} is invalid")
     sys.exit(1)
 
 SP_AUTH = ServicePrincipalAuthentication(
@@ -43,7 +43,7 @@ try:
         description="Forecasting Model",
         workspace=WORKSPACE)
 
-    print("Model registered successfully. ID: " + MODEL.id)
+    print(f"Model registered successfully. ID: {MODEL.id}")
 except Exception as caught_error:
-    print("Error while registering the model: " + str(caught_error))
+    print(f"Error while registering the model: {str(caught_error)}")
     sys.exit(1)

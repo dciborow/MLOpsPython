@@ -19,8 +19,7 @@ def get_compute(
         if compute_name in workspace.compute_targets:
             compute_target = workspace.compute_targets[compute_name]
             if compute_target and type(compute_target) is AmlCompute:
-                print('Found existing compute target ' + compute_name
-                      + ' so using it.')
+                print((f'Found existing compute target {compute_name}' + ' so using it.'))
         else:
             compute_config = AmlCompute.provisioning_configuration(
                 vm_size=vm_size,

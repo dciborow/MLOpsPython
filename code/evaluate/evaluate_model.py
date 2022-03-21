@@ -23,6 +23,7 @@ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE CODE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
+
 import os
 from azureml.core import Model, Run
 import argparse
@@ -48,8 +49,8 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-print("Argument 1: %s" % args.release_id)
-print("Argument 2: %s" % args.model_name)
+print(f"Argument 1: {args.release_id}")
+print(f"Argument 2: {args.model_name}")
 model_name = args.model_name
 release_id = args.release_id
 
@@ -88,10 +89,9 @@ try:
     production_model_mse = production_model_run.get_metrics().get("mse")
     new_model_mse = new_model_run.get_metrics().get("mse")
     print(
-        "Current Production model mse: {}, New trained model mse: {}".format(
-            production_model_mse, new_model_mse
-        )
+        f"Current Production model mse: {production_model_mse}, New trained model mse: {new_model_mse}"
     )
+
 
     promote_new_model = False
     if new_model_mse < production_model_mse:

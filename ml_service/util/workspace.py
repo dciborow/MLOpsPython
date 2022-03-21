@@ -16,14 +16,12 @@ def get_workspace(
         service_principal_password=app_secret)
 
     try:
-        aml_workspace = Workspace.get(
+        return Workspace.get(
             name=name,
             subscription_id=subscription_id,
             resource_group=resource_group,
             auth=service_principal)
-
-        return aml_workspace
     except Exception as caught_exception:
         print("Error while retrieving Workspace...")
-        print(str(caught_exception))
+        print(caught_exception)
         sys.exit(1)

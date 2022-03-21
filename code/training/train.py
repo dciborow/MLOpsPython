@@ -23,6 +23,7 @@ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE CODE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
+
 from azureml.core.run import Run
 import os
 import argparse
@@ -49,8 +50,8 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-print("Argument 1: %s" % args.release_id)
-print("Argument 2: %s" % args.model_name)
+print(f"Argument 1: {args.release_id}")
+print(f"Argument 2: {args.model_name}")
 
 model_name = args.model_name
 release_id = args.release_id
@@ -87,9 +88,8 @@ with open(model_name, "wb") as file:
     joblib.dump(value=reg, filename=model_name)
 
 # upload the model file explicitly into artifacts
-run.upload_file(name="./outputs/" + model_name, path_or_stream=model_name)
-print("Uploaded the model {} to experiment {}".format(
-    model_name, run.experiment.name))
+run.upload_file(name=f"./outputs/{model_name}", path_or_stream=model_name)
+print(f"Uploaded the model {model_name} to experiment {run.experiment.name}")
 dirpath = os.getcwd()
 print(dirpath)
 print("Following files are uploaded ")

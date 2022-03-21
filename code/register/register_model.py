@@ -23,6 +23,7 @@ IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THE SOFTWARE CODE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
 """
+
 import os
 import json
 import sys
@@ -59,14 +60,14 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-print("Argument 1: %s" % args.config_suffix)
-print("Argument 2: %s" % args.json_config)
+print(f"Argument 1: {args.config_suffix}")
+print(f"Argument 2: {args.json_config}")
 
-if not (args.json_config is None):
+if args.json_config is not None:
     os.makedirs(args.json_config, exist_ok=True)
-    print("%s created" % args.json_config)
+    print(f"{args.json_config} created")
 
-evaluate_run_id_json = "run_id_{}.json".format(args.config_suffix)
+evaluate_run_id_json = f"run_id_{args.config_suffix}.json"
 evaluate_output_path = os.path.join(args.json_config, evaluate_run_id_json)
 model_name = args.model_name
 
@@ -88,11 +89,14 @@ experiment_name = config["experiment_name"]
 run = Run(experiment=exp, run_id=run_id)
 names = run.get_file_names
 names()
-print("Run ID for last run: {}".format(run_id))
+print(f"Run ID for last run: {run_id}")
 
-model = run.register_model(model_name=model_name,
-                           model_path="./outputs/" + model_name,
-                           tags={"area": "diabetes", "type": "regression"})
+model = run.register_model(
+    model_name=model_name,
+    model_path=f"./outputs/{model_name}",
+    tags={"area": "diabetes", "type": "regression"},
+)
+
 os.chdir("..")
 print(
     "Model registered: {} \nModel Description: {} \nModel Version: {}".format(
@@ -101,11 +105,13 @@ print(
 )
 
 # Writing the registered model details to /aml_config/model.json
-model_json = {}
-model_json["model_name"] = model.name
-model_json["model_version"] = model.version
-model_json["run_id"] = run_id
-filename = "model_{}.json".format(args.config_suffix)
+model_json = {
+    "model_name": model.name,
+    "model_version": model.version,
+    "run_id": run_id,
+}
+
+filename = f"model_{args.config_suffix}.json"
 output_path = os.path.join(args.json_config, filename)
 with open(output_path, "w") as outfile:
     json.dump(model_json, outfile)
